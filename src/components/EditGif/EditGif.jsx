@@ -6,8 +6,22 @@ export default class EditGif extends Component {
     constructor() {
         super();
 
+        this.state = {
+            tags: ''
+        };
+
         this.deleteGif = this.deleteGif.bind(this);
         this.updateGif = this.updateGif.bind(this);
+    }
+
+    /**
+     * Life-cycle methods
+     */
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            tags: nextProps.gif.tags
+        });
     }
 
     /**
@@ -18,6 +32,10 @@ export default class EditGif extends Component {
         e.preventDefault();
 
         this.props.deleteGif();
+    }
+
+    onTagsChange(e) {
+        this.setState({ tags: e.target.value });
     }
 
     updateGif(e) {
@@ -43,13 +61,14 @@ export default class EditGif extends Component {
                 <h2>edit gif</h2>
                 <img className="preview" src={gif.url} alt="gif preview" />
                 <form ref={(input) => { this.form = input; }} className="edit-gif-form" onSubmit={this.updateGif}>
-                    <input type="text" readOnly defaultValue={gif.url} />
+                    <input type="text" readOnly value={gif.url} />
                     <textarea
                         required
+                        onChange={(e) => this.onTagsChange(e)}
                         type="text"
                         name="tags"
                         placeholder="tags (comma delimited)"
-                        defaultValue={gif.tags}
+                        value={this.state.tags || this.props.gif.tags}
                         ref={(tags) => { this.tags = tags; }}
                     />
                     <button className="left-button" type="submit">update tags</button>

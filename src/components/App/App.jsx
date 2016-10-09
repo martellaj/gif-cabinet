@@ -80,6 +80,7 @@ export default class App extends Component {
             return null;
         });
 
+        this.setState({ selectedGif: '' });
         this.setState({ gifs });
     }
 
