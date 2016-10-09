@@ -2,6 +2,7 @@
     order: 1;
     max-width: 200px;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .result > .preview {
@@ -10,4 +11,9 @@
 
 .result > .url {
     display: block;
+}
+
+.result > input {
+    margin-top: 2px;
+    width: 194px;
 }

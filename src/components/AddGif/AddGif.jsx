@@ -60,6 +60,7 @@ export default class AddGif extends Component {
     render() {
         return (
             <div className="add-gif-component">
+                <h2>add a gif</h2>
                 <img className="preview" src={this.state.url || 'http://placekitten.com/250/250'} alt="gif preview" />
                 <form ref={(input) => { this.form = input; }} className="add-gif-form" onSubmit={this.createGif}>
                     <input type="text" required placeholder="gif url" onBlur={this.setPreviewImage} ref={(url) => { this.url = url; }} />

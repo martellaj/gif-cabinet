@@ -27,8 +27,11 @@ export default class Results extends Component {
 
     render() {
         return (
-            <div className="results-container">
-                {Object.keys(this.props.results).map(this.renderResult)}
+            <div className="results-component">
+                <h2>results</h2>
+                <div className="results-container">
+                    {Object.keys(this.props.results).map(this.renderResult)}
+                </div>
             </div>
         );
     }
