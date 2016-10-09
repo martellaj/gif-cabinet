@@ -17,3 +17,7 @@
     margin-top: 2px;
     width: 194px;
 }
+
+.result-focused {
+    background: blue;
+}
