@@ -9,6 +9,10 @@
 .result-focused {
     border: 1px solid black;
     background: lightcyan;
+
+    /* Takes new border into account. */
+    margin-right: 8px;
+    margin-bottom: 8px;
 }
 
 .result > .preview {
