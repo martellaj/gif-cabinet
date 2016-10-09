@@ -3,13 +3,13 @@
     margin: 0 auto;
 }
 
-.preview {
+.add-gif-component > .preview {
     margin: 0 auto;
     max-width: 100%;
     height: auto;
 }
 
-.add-gif-form {
+.add-gif-component > .add-gif-form {
     margin-left: auto;
     margin-right: auto;
 }
