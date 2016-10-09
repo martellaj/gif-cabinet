@@ -26,7 +26,7 @@ export default class Login extends Component {
                 <button
                     className="facebook-login"
                     onClick={this.authenticate}
-                >Log in with Facebook</button>
+                >log in with facebook</button>
             </div>
         );
     }
