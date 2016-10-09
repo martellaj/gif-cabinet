@@ -1,0 +1,13 @@
+.result {
+    order: 1;
+    max-width: 200px;
+    margin-right: 10px;
+}
+
+.result > .preview {
+    display: block;
+}
+
+.result > .url {
+    display: block;
+}

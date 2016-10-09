@@ -1,8 +1,9 @@
 import './App.css';
+import AddGif from '../AddGif/AddGif';
 import base from '../../base';
 import Login from '../Login/Login';
 import React, { Component } from 'react';
-import AddGif from '../AddGif/AddGif';
+import Results from '../Results/Results';
 
 export default class App extends Component {
     constructor() {
@@ -85,7 +86,10 @@ export default class App extends Component {
             return (
                 <div className="app">
                     <div className="search-component"></div>
-                    <div className="results-component"></div>
+                    <Results
+                        className="results-component"
+                        results={this.state.gifs}
+                    />
                     <div className="gif-management">
                         {managementComponent}
                     </div>
