@@ -1,11 +1,12 @@
 import './App.css';
 import AddGif from '../AddGif/AddGif';
 import base from '../../base';
+import EditGif from '../EditGif/EditGif';
 import Login from '../Login/Login';
 import React, { Component } from 'react';
 import Results from '../Results/Results';
-import SampleData from '../SampleData/SampleData';
 import sampleData from '../SampleData/sample-gifs';
+import SampleData from '../SampleData/SampleData';
 
 export default class App extends Component {
     constructor() {
@@ -20,9 +21,11 @@ export default class App extends Component {
         this.addGif = this.addGif.bind(this);
         this.authHandler = this.authHandler.bind(this);
         this.clearSampleData = this.clearSampleData.bind(this);
+        this.deleteGif = this.deleteGif.bind(this);
         this.loadSampleData = this.loadSampleData.bind(this);
         this.selectGif = this.selectGif.bind(this);
         this.unselectGif = this.unselectGif.bind(this);
+        this.updateGif = this.updateGif.bind(this);
     }
 
     /**
@@ -80,6 +83,19 @@ export default class App extends Component {
         this.setState({ gifs });
     }
 
+    deleteGif() {
+        let gifs = {...this.state.gifs};
+        gifs[this.state.selectedGif] = null;
+
+        this.setState({
+            selectedGif: ''
+        });
+
+        this.setState({
+            gifs
+        });
+    }
+
     loadSampleData() {
         Object.keys(sampleData).map((key) => {
             let sample = sampleData[key];
@@ -102,6 +118,16 @@ export default class App extends Component {
         });
     }
 
+    updateGif(updatedGif) {
+        let gifs = {...this.state.gifs};
+        gifs[this.state.selectedGif] = updatedGif;
+
+        this.setState({
+            gifs: gifs,
+            selectedGif: ''
+        });
+    }
+
     /**
      * Render function
      */
@@ -111,8 +137,13 @@ export default class App extends Component {
 
         let managementComponent;
         if (this.state.selectedGif) {
-            managementComponent = <p>EditGif component</p>;
-            // managementComponent = <EditGif id={this.state.selectedGif} />
+            managementComponent = (
+                <EditGif
+                    gif={this.state.gifs[this.state.selectedGif]}
+                    updateGif={this.updateGif}
+                    deleteGif={this.deleteGif}
+                />
+            );
         } else {
             managementComponent = <AddGif addGif={this.addGif} />
         }

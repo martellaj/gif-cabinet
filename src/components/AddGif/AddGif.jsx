@@ -1,4 +1,5 @@
 import './AddGif.css';
+import { processTags } from '../../helpers';
 import React, { Component } from 'react';
 
 export default class AddGif extends Component {
@@ -22,7 +23,7 @@ export default class AddGif extends Component {
 
         let gif = {
             url: this.url.value,
-            tags: this._processTags(this.tags.value)
+            tags: processTags(this.tags.value)
         }
 
         this.props.addGif(gif);
@@ -38,19 +39,6 @@ export default class AddGif extends Component {
         this.setState({
             url: event.target.value
         });
-    }
-
-    _processTags(tags) {
-        // Split input on commas.
-        tags = tags.trim().split(',');
-
-        // Remove white-space from tags.
-        tags = tags.map(tag => {
-            return tag.trim();
-        });
-
-        // Remove any empty tags.
-        return tags.filter(tag => tag !== '');
     }
 
     /**
