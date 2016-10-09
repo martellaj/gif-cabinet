@@ -8,9 +8,17 @@ export default class Login extends Component {
         this.authenticate = this.authenticate.bind(this);
     }
 
+    /**
+     * Custom methods
+     */
+
     authenticate() {
         base.authWithOAuthPopup('facebook', this.props.authHandler);
     }
+
+    /**
+     * Render function
+     */
 
     render() {
         return (

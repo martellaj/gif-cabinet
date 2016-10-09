@@ -1,4 +1,5 @@
 import './App.css';
+import base from '../../base';
 import Login from '../Login/Login';
 import logo from '../../logo.svg';
 import React, { Component } from 'react';
@@ -14,6 +15,22 @@ export default class App extends Component {
         this.authHandler = this.authHandler.bind(this);
     }
 
+    /**
+     * Life-cycle methods
+     */
+
+    componentDidMount() {
+        base.onAuth((user) => {
+            if (user) {
+                this.authHandler(null, { user });
+            }
+        });
+    }
+
+    /**
+     * Custom methods
+     */
+
     authHandler(err, authData) {
         if (err) {
             console.error(err);
@@ -24,6 +41,10 @@ export default class App extends Component {
             uid: authData.user.uid
         });
     }
+
+    /**
+     * Render function
+     */
 
     render() {
         let authenticatedUser = !!this.state.uid;
