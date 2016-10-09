@@ -1,0 +1,10 @@
+.search-component {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.search-form > input {
+    display: block;
+    margin-bottom: 5px;
+    width: 75%;
+}

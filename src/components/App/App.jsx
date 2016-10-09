@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import Results from '../Results/Results';
 import sampleData from '../SampleData/sample-gifs';
 import SampleData from '../SampleData/SampleData';
+import Search from '../Search/Search';
 
 export default class App extends Component {
     constructor() {
@@ -15,10 +16,12 @@ export default class App extends Component {
         this.state = {
             uid: null, // User ID of signed in user
             selectedGif: '', // ID of selected GIF
-            gifs: {} // All of the GIFs
+            gifs: {}, // All of the GIFs
+            query: [] // Tags being searched
         };
 
         this.addGif = this.addGif.bind(this);
+        this.addToQuery = this.addToQuery.bind(this);
         this.authHandler = this.authHandler.bind(this);
         this.clearSampleData = this.clearSampleData.bind(this);
         this.deleteGif = this.deleteGif.bind(this);
@@ -52,6 +55,38 @@ export default class App extends Component {
         gifs[`gif-${timestamp}`] = gif;
 
         this.setState({ gifs: gifs });
+    }
+
+    addToQuery(tags) {
+        let query = this.state.query.slice();
+
+        tags.map(tag => {
+            // Add to query if it isn't already present.
+            if (query.indexOf(tag) === -1 ){
+                query.push(tag);
+            }
+
+            return null;
+        });
+
+        this.setState({
+            query: query
+        });
+    }
+
+    processQuery(tags) {
+        Object.keys(tags).map(tag => {
+            console.log(tag);
+
+            let query = {...this.state.query};
+            query[tag] = tag;
+
+            this.setState({
+                query: query
+            });
+
+            return null;
+        });
     }
 
     authHandler(err, authData) {
@@ -159,8 +194,9 @@ export default class App extends Component {
             return (
                 <div className="app">
                     <div className="app-section search-section">
-                        <div className="foo">
-                        </div>
+                        <Search
+                            addToQuery={this.addToQuery}
+                        />
                     </div>
                     <div className="app-section results-section">
                         <Results
@@ -168,6 +204,7 @@ export default class App extends Component {
                             selectGif={this.selectGif}
                             selectedGif={this.state.selectedGif}
                             unselectGif={this.unselectGif}
+                            query={this.state.query}
                         />
                     </div>
                     <div className="app-section gif-management-section">
