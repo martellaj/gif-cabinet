@@ -41,5 +41,7 @@ export default class Result extends Component {
 
 Result.propTypes = {
     result: React.PropTypes.object.isRequired,
-    gifId: React.PropTypes.string.isRequired
+    gifId: React.PropTypes.string.isRequired,
+    selectGif: React.PropTypes.func.isRequired,
+    selectedGif: React.PropTypes.string.isRequired
 };
