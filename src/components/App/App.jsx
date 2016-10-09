@@ -4,6 +4,8 @@ import base from '../../base';
 import Login from '../Login/Login';
 import React, { Component } from 'react';
 import Results from '../Results/Results';
+import SampleData from '../SampleData/SampleData';
+import sampleData from '../SampleData/sample-gifs';
 
 export default class App extends Component {
     constructor() {
@@ -17,6 +19,8 @@ export default class App extends Component {
 
         this.addGif = this.addGif.bind(this);
         this.authHandler = this.authHandler.bind(this);
+        this.clearSampleData = this.clearSampleData.bind(this);
+        this.loadSampleData = this.loadSampleData.bind(this);
     }
 
     /**
@@ -61,6 +65,29 @@ export default class App extends Component {
         });
     }
 
+    clearSampleData() {
+        let gifs = {...this.state.gifs};
+
+        Object.keys(gifs).map((key) => {
+            gifs[key] = null;
+
+            // Just need to return anything.
+            return null;
+        });
+
+        this.setState({ gifs });
+    }
+
+    loadSampleData() {
+        Object.keys(sampleData).map((key) => {
+            let sample = sampleData[key];
+            this.addGif(sample);
+
+            // Just need to return anything.
+            return null;
+        });
+    }
+
     /**
      * Render function
      */
@@ -96,6 +123,10 @@ export default class App extends Component {
                     </div>
                     <div className="app-section gif-management-section">
                         {managementComponent}
+                        <SampleData
+                            clearSampleData={this.clearSampleData}
+                            loadSampleData={this.loadSampleData}
+                        />
                     </div>
                 </div>
             );
