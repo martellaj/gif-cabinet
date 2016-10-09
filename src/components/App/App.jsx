@@ -21,6 +21,7 @@ export default class App extends Component {
         this.authHandler = this.authHandler.bind(this);
         this.clearSampleData = this.clearSampleData.bind(this);
         this.loadSampleData = this.loadSampleData.bind(this);
+        this.selectGif = this.selectGif.bind(this);
     }
 
     /**
@@ -88,6 +89,12 @@ export default class App extends Component {
         });
     }
 
+    selectGif(gifId) {
+        this.setState({
+            selectedGif: gifId
+        });
+    }
+
     /**
      * Render function
      */
@@ -119,6 +126,8 @@ export default class App extends Component {
                     <div className="app-section results-section">
                         <Results
                             results={this.state.gifs}
+                            selectGif={this.selectGif}
+                            selectedGif={this.state.selectedGif}
                         />
                     </div>
                     <div className="app-section gif-management-section">

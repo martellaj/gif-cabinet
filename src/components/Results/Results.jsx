@@ -17,7 +17,13 @@ export default class Results extends Component {
         let gif = this.props.results[key];
 
         return (
-            <Result key={key} result={gif} />
+            <Result
+                key={key}
+                result={gif}
+                gifId={key}
+                selectGif={this.props.selectGif}
+                selectedGif={this.props.selectedGif}
+            />
         );
     }
 
