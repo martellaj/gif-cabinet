@@ -1,0 +1,27 @@
+.add-gif-component {
+    width: 40%;
+    margin: 5% auto;
+    text-align: center;
+}
+
+.preview {
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.add-gif-form {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.add-gif-form > input,
+.add-gif-form > textarea {
+    display: block;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.add-gif-form > button {
+    width: 50%;
+}

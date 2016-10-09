@@ -1,17 +1,20 @@
 import './App.css';
 import base from '../../base';
 import Login from '../Login/Login';
-import logo from '../../logo.svg';
 import React, { Component } from 'react';
+import AddGif from '../AddGif/AddGif';
 
 export default class App extends Component {
     constructor() {
         super();
 
         this.state = {
-            uid: null // User ID of signed in user.
+            uid: null, // User ID of signed in user
+            selectedGif: null, // ID of selected GIF
+            gifs: {} // All of the GIFs
         };
 
+        this.addGif = this.addGif.bind(this);
         this.authHandler = this.authHandler.bind(this);
     }
 
@@ -31,6 +34,16 @@ export default class App extends Component {
      * Custom methods
      */
 
+    addGif(gif) {
+        let gifs = {...this.state.gifs};
+
+        // Generate timestamp key.
+        let timestamp = Date.now();
+        gifs[`gif-${timestamp}`] = gif;
+
+        this.setState({ gifs: gifs });
+    }
+
     authHandler(err, authData) {
         if (err) {
             console.error(err);
@@ -39,6 +52,11 @@ export default class App extends Component {
 
         this.setState({
             uid: authData.user.uid
+        });
+
+        this.ref = base.syncState(`${authData.user.uid}/gifs`, {
+            context: this,
+            state: 'gifs'
         });
     }
 
@@ -49,6 +67,14 @@ export default class App extends Component {
     render() {
         let authenticatedUser = !!this.state.uid;
 
+        let managementComponent;
+        if (this.state.selectedGif) {
+            managementComponent = <p>EditGif component</p>;
+            // managementComponent = <EditGif id={this.state.selectedGif} />
+        } else {
+            managementComponent = <AddGif addGif={this.addGif} />
+        }
+
         if (!authenticatedUser) {
             return (
                 <Login
@@ -57,14 +83,12 @@ export default class App extends Component {
             );
         } else {
             return (
-                <div className="App">
-                    <div className="App-header">
-                        <img src={logo} className="App-logo" alt="logo" />
-                        <h2>Welcome to React</h2>
+                <div className="app">
+                    <div className="search-component"></div>
+                    <div className="results-component"></div>
+                    <div className="gif-management">
+                        {managementComponent}
                     </div>
-                    <p className="App-intro">
-                        To get started, edit <code>src/App.js</code> and save to reload.
-                    </p>
                 </div>
             );
         }
