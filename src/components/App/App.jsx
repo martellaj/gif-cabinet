@@ -13,7 +13,7 @@ export default class App extends Component {
 
         this.state = {
             uid: null, // User ID of signed in user
-            selectedGif: null, // ID of selected GIF
+            selectedGif: '', // ID of selected GIF
             gifs: {} // All of the GIFs
         };
 
