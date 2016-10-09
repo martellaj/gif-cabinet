@@ -14,7 +14,11 @@ export default class Result extends Component {
      */
 
     onResultClick(event) {
-        this.props.selectGif(this.props.gifId);
+        if (!this.props.isSelected) {
+            this.props.selectGif(this.props.gifId);
+        } else {
+            this.props.unselectGif();
+        }
     }
 
     /**
@@ -27,7 +31,7 @@ export default class Result extends Component {
 
         let className = cx({
             result: true,
-            'result-focused': this.props.selectedGif === this.props.gifId
+            'result-focused': this.props.isSelected
         });
 
         return (
@@ -43,5 +47,6 @@ Result.propTypes = {
     result: React.PropTypes.object.isRequired,
     gifId: React.PropTypes.string.isRequired,
     selectGif: React.PropTypes.func.isRequired,
-    selectedGif: React.PropTypes.string.isRequired
+    isSelected: React.PropTypes.bool.isRequired,
+    unselectGif: React.PropTypes.func.isRequired
 };

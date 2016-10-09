@@ -22,7 +22,8 @@ export default class Results extends Component {
                 result={gif}
                 gifId={key}
                 selectGif={this.props.selectGif}
-                selectedGif={this.props.selectedGif}
+                isSelected={key === this.props.selectedGif}
+                unselectGif={this.props.unselectGif}
             />
         );
     }
