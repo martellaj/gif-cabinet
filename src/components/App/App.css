@@ -1,18 +1,27 @@
 .app {
-  display: flex;
-  flex-direction: row;
   padding-top: 2%;
 }
 
-.search-component {
-  flex-grow: 1;
+.app-section {
+  display: inline-block;
+  vertical-align: top;
 }
 
-.results-component {
-  flex-grow: 2;
+.search-section {
+  width: 20%;
 }
 
-.gif-management {
-  flex-grow: 1;
+.foo {
+  margin: 0 auto;
+  background: blue;
+  height: 200px;
+  width: 80%;
+}
 
+.results-section {
+  width: 60%;
+}
+
+.gif-management-section {
+  width: 20%;
 }
