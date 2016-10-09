@@ -21,6 +21,23 @@ export default class Results extends Component {
         );
     }
 
+    renderResults() {
+        let hasResults = Object.keys(this.props.results).length > 0;
+        let results;
+
+        if (hasResults) {
+            results = (
+                <div className="results-container">
+                    {Object.keys(this.props.results).map(this.renderResult)}
+                </div>
+            );
+        } else {
+            results = <p>no results</p>;
+        }
+
+        return results;
+    }
+
     /**
      * Render function
      */
@@ -29,9 +46,7 @@ export default class Results extends Component {
         return (
             <div className="results-component">
                 <h2>results</h2>
-                <div className="results-container">
-                    {Object.keys(this.props.results).map(this.renderResult)}
-                </div>
+                {this.renderResults()}
             </div>
         );
     }
