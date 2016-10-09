@@ -4,3 +4,7 @@
     flex-wrap: wrap;
     margin: 0 auto;
 }
+
+.results-component > .sort-order {
+    margin-bottom: 20px;
+}
