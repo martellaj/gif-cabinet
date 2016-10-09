@@ -85,12 +85,16 @@ export default class App extends Component {
         } else {
             return (
                 <div className="app">
-                    <div className="search-component"></div>
-                    <Results
-                        className="results-component"
-                        results={this.state.gifs}
-                    />
-                    <div className="gif-management">
+                    <div className="app-section search-section">
+                        <div className="foo">
+                        </div>
+                    </div>
+                    <div className="app-section results-section">
+                        <Results
+                            results={this.state.gifs}
+                        />
+                    </div>
+                    <div className="app-section gif-management-section">
                         {managementComponent}
                     </div>
                 </div>
