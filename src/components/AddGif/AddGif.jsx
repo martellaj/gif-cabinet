@@ -14,10 +14,6 @@ export default class AddGif extends Component {
         this.setPreviewImage = this.setPreviewImage.bind(this);
     }
 
-    /**
-     * Custom methods
-     */
-
     createGif(event) {
         event.preventDefault();
 
@@ -26,7 +22,7 @@ export default class AddGif extends Component {
             tags: processTags(this.tags.value)
         }
 
-        this.props.addGif(gif);
+        this.props.createGif(gif);
 
         // Clear form.
         this.setState({ url: null });
@@ -61,5 +57,5 @@ export default class AddGif extends Component {
 }
 
 AddGif.propTypes = {
-    addGif: React.PropTypes.func.isRequired
+    createGif: React.PropTypes.func.isRequired
 };

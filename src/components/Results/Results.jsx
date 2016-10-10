@@ -11,16 +11,24 @@ export default class Results extends Component {
         };
 
         this.renderResult = this.renderResult.bind(this);
-        this.transformResultsObjectToArray = this.transformResultsObjectToArray.bind(this);
         this.onSortOrderChange = this.onSortOrderChange.bind(this);
     }
 
-    /**
-     * Custom methods
-     */
-
     onSortOrderChange(e) {
         this.setState({ sortOrder: e.target.value });
+    }
+
+    sort(results, order) {
+        switch (this.state.sortOrder) {
+            case "newest": // Newest to oldest
+                return results.sort(this._newestToOldestSort);
+            case "oldest": // Oldest to newest
+                return results.sort(this._oldestToNewestSort);
+            case "most relevant": // Most relevant
+                break;
+            default: // Newest to oldest
+                return results.sort(this._newestToOldestSort);
+        }
     }
 
     renderResult(result) {
@@ -38,51 +46,23 @@ export default class Results extends Component {
         );
     }
 
-    sort(results, order) {
-        switch (this.state.sortOrder) {
-            case "newest": // Newest to oldest
-                return results.sort(this._newestToOldestSort);
-            case "oldest": // Oldest to newest
-                return results.sort(this._oldestToNewestSort);
-            case "most relevant": // Most relevant
-                break;
-            default: // Newest to oldest
-                return results.sort(this._newestToOldestSort);
-        }
-    }
-
-    transformResultsObjectToArray() {
-        let results = [];
-
-        Object.keys(this.props.results).map((key) => {
-            let result = this.props.results[key];
-            result.timestamp = key;
-            results.push(result);
-
-            return null;
-        });
-
-        return results;
-    }
-
     renderResults() {
-        let hasResults = Object.keys(this.props.results).length > 0;
-        let results;
+        let hasResults = this.props.results.length > 0;
+        let resultsMarkup;
 
         if (hasResults) {
-            let resultsArray = this.transformResultsObjectToArray();
-            resultsArray = this.sort(resultsArray, this.state.sortOrder);
+            let results = this.sort(this.props.results, this.state.sortOrder);
 
-            results = (
+            resultsMarkup = (
                 <div className="results-container">
-                    {resultsArray.map(this.renderResult)}
+                    {results.map(this.renderResult)}
                 </div>
             );
         } else {
-            results = <p>no results</p>;
+            resultsMarkup = <p>no results</p>;
         }
 
-        return results;
+        return resultsMarkup;
     }
 
     _newestToOldestSort(a, b) {
@@ -112,7 +92,7 @@ export default class Results extends Component {
 }
 
 Results.propTypes = {
-    results: React.PropTypes.object.isRequired,
+    results: React.PropTypes.array.isRequired,
     selectGif: React.PropTypes.func.isRequired,
     selectedGif: React.PropTypes.string.isRequired
 };
