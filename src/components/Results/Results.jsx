@@ -7,7 +7,8 @@ export default class Results extends Component {
         super();
 
         this.state = {
-            sortOrder: "newest"
+            sortOrder: "newest",
+            isQueryActive: false
         };
 
         this.renderResult = this.renderResult.bind(this);
@@ -30,21 +31,21 @@ export default class Results extends Component {
     }
 
     sort(results, order) {
+        // Filter out GIFs that don't match query.
+        if (this.state.isQueryActive) {
+            results = this.processRelevance(results);
+            results = results.filter(result => {
+                return result.relevance > 0;
+            });
+        }
+
         switch (this.state.sortOrder) {
             case "newest": // Newest to oldest
                 return results.sort(this._newestToOldestSort);
             case "oldest": // Oldest to newest
                 return results.sort(this._oldestToNewestSort);
             case "most relevant": // Most relevant
-                if (this.props.query.length > 0) {
-                    results = this.processRelevance(results);
-                    results = results.filter(result => {
-                        return result.relevance > 0;
-                    });
-                    return results.sort(this._mostRelevantSort);
-                } else {
-                    return results.sort(this._newestToOldestSort);
-                }
+                return results.sort(this._mostRelevantSort);
             default: // Newest to oldest
                 return results.sort(this._newestToOldestSort);
         }
@@ -99,7 +100,7 @@ export default class Results extends Component {
         return a.timestamp.slice(4) - b.timestamp.slice(4);
     }
 
-    isQueryValid(query) {
+    isQueryActive(query) {
         for (let i = 0; i < query.length; i++) {
             if (query[i]) {
                 return true;
@@ -110,9 +111,13 @@ export default class Results extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let hasQuery = this.isQueryValid(nextProps.query);
+        let isQueryActive = this.isQueryActive(nextProps.query);
 
-        if (hasQuery) {
+        this.setState({
+            isQueryActive: isQueryActive
+        });
+
+        if (isQueryActive) {
             this.setState({
                 sortOrder: "most relevant"
             });
