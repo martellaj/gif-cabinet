@@ -8,3 +8,12 @@
     margin-bottom: 5px;
     width: 75%;
 }
+
+.tag-list {
+    margin-top: 10px;
+}
+
+.tag-list-item {
+    font-size: 14px;
+    margin-bottom: 5px;
+}

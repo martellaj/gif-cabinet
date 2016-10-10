@@ -7,6 +7,8 @@ export default class Search extends Component {
         super();
 
         this.addToQuery = this.addToQuery.bind(this);
+        this.removeTagFromQuery = this.removeTagFromQuery.bind(this);
+        this.renderTag = this.renderTag.bind(this);
     }
 
     /**
@@ -17,15 +19,23 @@ export default class Search extends Component {
         e.preventDefault();
 
         let newTags = processTags(this.tags.value);
-
-        // let newTagsObject = {};
-        // newTags.forEach(tag => {
-        //     newTagsObject[tag] = tag;
-        // });
-
         this.props.addToQuery(newTags);
 
         this.form.reset();
+    }
+
+    removeTagFromQuery(e, key) {
+        e.preventDefault();
+        this.props.removeTagFromQuery(key);
+    }
+
+    renderTag(tag, key) {
+        return (
+            <div key={key} className="tag-list-item">
+                <button onClick={(e) => this.removeTagFromQuery(e, key)}>&times;</button>
+                {` ${tag}`}
+            </div>
+        );
     }
 
     /**
@@ -40,11 +50,16 @@ export default class Search extends Component {
                     <input required type="text" placeholder="tags (comma delimited)" ref={(tags) => { this.tags = tags; }} />
                     <button type="submit">add to query</button>
                 </form>
+                <div className="tag-list">
+                    {this.props.query.map(this.renderTag)}
+                </div>
             </div>
         );
     }
 }
 
 Search.propTypes = {
-    addToQuery: React.PropTypes.func.isRequired
+    addToQuery: React.PropTypes.func.isRequired,
+    removeTagFromQuery: React.PropTypes.func.isRequired,
+    query: React.PropTypes.array.isRequired
 };
