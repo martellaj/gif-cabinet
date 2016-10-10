@@ -26,6 +26,7 @@ export default class App extends Component {
         this.clearSampleData = this.clearSampleData.bind(this);
         this.deleteGif = this.deleteGif.bind(this);
         this.loadSampleData = this.loadSampleData.bind(this);
+        this.removeTagFromQuery = this.removeTagFromQuery.bind(this);
         this.selectGif = this.selectGif.bind(this);
         this.unselectGif = this.unselectGif.bind(this);
         this.updateGif = this.updateGif.bind(this);
@@ -142,6 +143,12 @@ export default class App extends Component {
         });
     }
 
+    removeTagFromQuery(key) {
+        let query = this.state.query.slice();
+        delete query[key];
+        this.setState({ query });
+    }
+
     selectGif(gifId) {
         this.setState({
             selectedGif: gifId
@@ -196,6 +203,8 @@ export default class App extends Component {
                     <div className="app-section search-section">
                         <Search
                             addToQuery={this.addToQuery}
+                            query={this.state.query}
+                            removeTagFromQuery={this.removeTagFromQuery}
                         />
                     </div>
                     <div className="app-section results-section">
