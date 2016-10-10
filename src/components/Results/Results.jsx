@@ -67,11 +67,14 @@ export default class Results extends Component {
 
     renderResults() {
         let hasResults = this.props.results.length > 0;
+        let results;
         let resultsMarkup;
 
         if (hasResults) {
-            let results = this.sort(this.props.results, this.state.sortOrder);
+            results = this.sort(this.props.results, this.state.sortOrder);
+        }
 
+        if (hasResults && results && results.length > 0) {
             resultsMarkup = (
                 <div className="results-container">
                     {results.map(this.renderResult)}
@@ -96,9 +99,18 @@ export default class Results extends Component {
         return a.timestamp.slice(4) - b.timestamp.slice(4);
     }
 
+    isQueryValid(query) {
+        for (let i = 0; i < query.length; i++) {
+            if (query[i]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     componentWillReceiveProps(nextProps) {
-        // TODO: Fix this.
-        let hasQuery = !!nextProps.query[0];
+        let hasQuery = this.isQueryValid(nextProps.query);
 
         if (hasQuery) {
             this.setState({
