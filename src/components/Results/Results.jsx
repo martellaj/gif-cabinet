@@ -9,7 +9,7 @@ export default class Results extends Component {
         this.state = {
             sortOrder: "newest",
             isQueryActive: false,
-            isInitialLoad: false
+            isInitialLoad: true
         };
 
         this.renderResult = this.renderResult.bind(this);
@@ -22,11 +22,13 @@ export default class Results extends Component {
 
         // Sort results and update results.
         let results = this.props.results;
-        results = this.sort(this.props.results, newSortOrder);
+        results = this.sort(results, newSortOrder);
         this.props.updateResults(results);
 
         // Update sortOrder state.
-        this.setState({ sortOrder: newSortOrder });
+        this.setState({
+            sortOrder: newSortOrder
+        });
     }
 
     processRelevance(results) {
@@ -111,21 +113,19 @@ export default class Results extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let isInitialLoad = this.state.isInitialLoad;
-        if (!this.state.isInitialLoad && nextProps.isDoneLoadingGifs && nextProps.results.length > 0) {
+        if (this.state.isInitialLoad && nextProps.isDoneLoadingGifs && nextProps.results.length > 0) {
             // Sort results and update results.
             let results = nextProps.results;
             results = this.sort(results, this.state.sortOrder);
             this.props.updateResults(results);
 
-            isInitialLoad = true;
+            // Update state.
+            this.setState({ isInitialLoad: false });
         }
 
         let isQueryActive = this.isQueryActive(nextProps.query);
-
         this.setState({
-            isQueryActive,
-            isInitialLoad
+            isQueryActive
         });
 
         if (isQueryActive) {
