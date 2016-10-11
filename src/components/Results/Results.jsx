@@ -119,10 +119,6 @@ export default class Results extends Component {
             this.setState({
                 sortOrder: "most relevant"
             });
-        } else {
-            this.setState({
-                sortOrder: "newest"
-            });
         }
     }
 
