@@ -17,7 +17,8 @@ export default class App extends Component {
             uid: '', // User ID of signed in user
             selectedGif: '', // ID of selected GIF
             gifs: [], // All of the GIFs
-            query: [] // Tags being searched
+            query: [], // Tags being searched
+            results: []
         };
 
         this.addToQuery = this.addToQuery.bind(this);
@@ -147,7 +148,14 @@ export default class App extends Component {
         this.ref = base.syncState(`${authData.user.uid}/gifs`, {
             context: this,
             state: 'gifs',
-            asArray: true
+            asArray: true,
+            then: this.doneSyncingWithFirebase
+        });
+    }
+
+    doneSyncingWithFirebase() {
+        this.setState({
+            results: this.state.gifs
         });
     }
 
@@ -207,7 +215,7 @@ export default class App extends Component {
                     </div>
                     <div className="app-section results-section">
                         <Results
-                            results={this.state.gifs}
+                            results={this.state.results}
                             selectGif={this.selectGif}
                             selectedGif={this.state.selectedGif}
                             unselectGif={this.unselectGif}
