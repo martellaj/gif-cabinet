@@ -52,15 +52,13 @@ export default class Results extends Component {
     }
 
     renderResult(result) {
-        let key = result.timestamp;
-
         return (
             <Result
-                key={key}
+                key={result.key}
                 result={result}
-                gifId={key}
+                gifId={result.key}
                 selectGif={this.props.selectGif}
-                isSelected={key === this.props.selectedGif}
+                isSelected={result.key === this.props.selectedGif}
                 unselectGif={this.props.unselectGif}
             />
         );
