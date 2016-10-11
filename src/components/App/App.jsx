@@ -18,7 +18,8 @@ export default class App extends Component {
             selectedGif: '', // ID of selected GIF
             gifs: [], // All of the GIFs
             query: [], // Tags being searched
-            results: []
+            results: [],
+            isDoneLoadingGifs: false
         };
 
         this.addToQuery = this.addToQuery.bind(this);
@@ -31,6 +32,7 @@ export default class App extends Component {
         this.selectGif = this.selectGif.bind(this);
         this.unselectGif = this.unselectGif.bind(this);
         this.updateGif = this.updateGif.bind(this);
+        this.updateResults = this.updateResults.bind(this);
     }
 
     /**
@@ -51,12 +53,16 @@ export default class App extends Component {
 
     createGif(gif) {
         // Generate timestamp key.
-        let timestamp = Date.now();
+        let key = `gif-${Date.now()}`;
 
         this.setState({
             gifs: this.state.gifs.concat({
                 ...gif,
-                timestamp: `gif-${timestamp}`
+                timestamp: key
+            }),
+            results: this.state.results.concat({
+                ...gif,
+                timestamp: key
             })
         });
     }
@@ -75,48 +81,72 @@ export default class App extends Component {
         let gifs = this.state.gifs.slice();
         delete gifs[this.state.selectedGif];
 
+        let results = this.state.results.slice();
+        delete results[this.state.selectedGif];
+
         this.setState({
             selectedGif: '',
-            gifs
+            gifs,
+            results
         });
     }
 
     createSampleData() {
         let gifs = this.state.gifs.slice();
+        let results = this.state.results.slice();
         let count = 0;
 
         Object.keys(sampleData).map((key) => {
             let sample = sampleData[key];
+            let gifKey = `gif-${Date.now()}${count++}`;
 
-            gifs.push({
+            sample = {
                 ...sample,
-                timestamp: `gif-${Date.now()}${count++}`
-            });
+                timestamp: gifKey
+            };
+
+            gifs.push(sample);
+            results.push(sample);
 
             // Just need to return anything.
             return null;
         });
 
-        this.setState({ gifs });
+        this.setState({
+            gifs,
+            results
+        });
     }
 
     deleteSampleData() {
         let gifs = this.state.gifs.slice();
-
         gifs.map((gif, key) => {
             delete gifs[key];
             return gif;
         });
 
+        let results = this.state.results.slice();
+        results.map((result, key) => {
+            delete results[key];
+            return result;
+        });
+
         this.setState({
             selectedGif: '',
-            gifs
+            gifs,
+            results
         });
     }
 
     /**
      * End of functions that act on state.gifs
      */
+
+    updateResults(updatedResults) {
+        this.setState({
+            results: updatedResults
+        });
+    }
 
     addToQuery(tags) {
         let query = this.state.query.slice();
@@ -155,7 +185,10 @@ export default class App extends Component {
 
     doneSyncingWithFirebase() {
         this.setState({
+            isDoneLoadingGifs: true,
             results: this.state.gifs
+        }, function() {
+            console.log('done syncing');
         });
     }
 
@@ -166,15 +199,27 @@ export default class App extends Component {
     }
 
     selectGif(gifId) {
+        console.log(`trying to select ${gifId}`);
+
         this.setState({
             selectedGif: gifId
+        }, function() {
+            console.log('selected');
         });
     }
 
     unselectGif() {
         this.setState({
             selectedGif: ''
+        }, function() {
+            console.log('unselected');
         });
+    }
+
+    getGifWithKey(key) {
+        return this.state.gifs.filter(gif => {
+            return gif.key === key;
+        })[0];
     }
 
     /**
@@ -188,7 +233,7 @@ export default class App extends Component {
         if (this.state.selectedGif) {
             managementComponent = (
                 <EditGif
-                    gif={this.state.gifs[this.state.selectedGif]}
+                    gif={this.getGifWithKey(this.state.selectedGif)}
                     updateGif={this.updateGif}
                     deleteGif={this.deleteGif}
                 />
@@ -220,6 +265,8 @@ export default class App extends Component {
                             selectedGif={this.state.selectedGif}
                             unselectGif={this.unselectGif}
                             query={this.state.query}
+                            updateResults={this.updateResults}
+                            isDoneLoadingGifs={this.state.isDoneLoadingGifs}
                         />
                     </div>
                     <div className="app-section gif-management-section">

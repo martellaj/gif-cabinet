@@ -8,7 +8,8 @@ export default class Results extends Component {
 
         this.state = {
             sortOrder: "newest",
-            isQueryActive: false
+            isQueryActive: false,
+            isInitialLoad: false
         };
 
         this.renderResult = this.renderResult.bind(this);
@@ -17,7 +18,15 @@ export default class Results extends Component {
     }
 
     onSortOrderChange(e) {
-        this.setState({ sortOrder: e.target.value });
+        let newSortOrder = e.target.value;
+
+        // Sort results and update results.
+        let results = this.props.results;
+        results = this.sort(this.props.results, newSortOrder);
+        this.props.updateResults(results);
+
+        // Update sortOrder state.
+        this.setState({ sortOrder: newSortOrder });
     }
 
     processRelevance(results) {
@@ -39,7 +48,7 @@ export default class Results extends Component {
             });
         }
 
-        switch (this.state.sortOrder) {
+        switch (order) {
             case "newest": // Newest to oldest
                 return results.sort(this._newestToOldestSort);
             case "oldest": // Oldest to newest
@@ -65,22 +74,15 @@ export default class Results extends Component {
     }
 
     renderResults() {
-        let hasResults = this.props.results.length > 0;
-        let results;
-        let resultsMarkup;
+        let results = this.props.results;
+        let resultsMarkup = <p>no results</p>;
 
-        if (hasResults) {
-            results = this.sort(this.props.results, this.state.sortOrder);
-        }
-
-        if (hasResults && results && results.length > 0) {
+        if (results.length > 0) {
             resultsMarkup = (
                 <div className="results-container">
                     {results.map(this.renderResult)}
                 </div>
             );
-        } else {
-            resultsMarkup = <p>no results</p>;
         }
 
         return resultsMarkup;
@@ -109,10 +111,21 @@ export default class Results extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        let isInitialLoad = this.state.isInitialLoad;
+        if (!this.state.isInitialLoad && nextProps.isDoneLoadingGifs && nextProps.results.length > 0) {
+            // Sort results and update results.
+            let results = nextProps.results;
+            results = this.sort(results, this.state.sortOrder);
+            this.props.updateResults(results);
+
+            isInitialLoad = true;
+        }
+
         let isQueryActive = this.isQueryActive(nextProps.query);
 
         this.setState({
-            isQueryActive: isQueryActive
+            isQueryActive,
+            isInitialLoad
         });
 
         if (isQueryActive) {
