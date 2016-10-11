@@ -54,16 +54,15 @@ export default class App extends Component {
     createGif(gif) {
         // Generate timestamp key.
         let key = `gif-${Date.now()}`;
+        let newGif = [{
+            ...gif,
+            timestamp: key,
+            key: key
+        }];
 
         this.setState({
-            gifs: this.state.gifs.concat({
-                ...gif,
-                timestamp: key
-            }),
-            results: this.state.results.concat({
-                ...gif,
-                timestamp: key
-            })
+            gifs: this.state.gifs.concat(newGif),
+            results: this.state.results.concat(newGif)
         });
     }
 
@@ -102,7 +101,8 @@ export default class App extends Component {
 
             sample = {
                 ...sample,
-                timestamp: gifKey
+                timestamp: gifKey,
+                key: gifKey
             };
 
             gifs.push(sample);
@@ -144,7 +144,7 @@ export default class App extends Component {
 
     updateResults(updatedResults) {
         this.setState({
-            results: updatedResults
+            results: [].concat(updatedResults)
         });
     }
 
@@ -185,10 +185,9 @@ export default class App extends Component {
 
     doneSyncingWithFirebase() {
         this.setState({
-            isDoneLoadingGifs: true,
             results: this.state.gifs
         }, function() {
-            console.log('done syncing');
+            this.setState({ isDoneLoadingGifs: true });
         });
     }
 
