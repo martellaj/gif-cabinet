@@ -157,7 +157,7 @@ export default class Results extends Component {
 Results.propTypes = {
     results: React.PropTypes.array.isRequired,
     selectGif: React.PropTypes.func.isRequired,
-    selectedGif: React.PropTypes.string.isRequired,
+    selectedGif: React.PropTypes.number.isRequired,
     unselectGif: React.PropTypes.func.isRequired,
     query: React.PropTypes.array.isRequired
 };

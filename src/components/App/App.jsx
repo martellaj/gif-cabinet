@@ -15,7 +15,7 @@ export default class App extends Component {
 
         this.state = {
             uid: '', // User ID of signed in user
-            selectedGif: '', // ID of selected GIF
+            selectedGif: -1, // ID of selected GIF
             gifs: [], // All of the GIFs
             query: [], // Tags being searched
             results: [],
@@ -54,15 +54,18 @@ export default class App extends Component {
     createGif(gif) {
         // Generate timestamp key.
         let key = `gif-${Date.now()}`;
-        let newGif = [{
-            ...gif,
-            timestamp: key,
-            key: key
-        }];
 
         this.setState({
-            gifs: this.state.gifs.concat(newGif),
-            results: this.state.results.concat(newGif)
+            gifs: this.state.gifs.concat([{
+                ...gif,
+                timestamp: key,
+                key: this.state.gifs.length
+            }]),
+            results: this.state.results.concat([{
+                ...gif,
+                timestamp: key,
+                key: this.state.results.length
+            }])
         });
     }
 
@@ -71,7 +74,7 @@ export default class App extends Component {
         gifs[this.state.selectedGif] = updatedGif;
 
         this.setState({
-            selectedGif: '',
+            selectedGif: -1,
             gifs: gifs
         });
     }
@@ -84,7 +87,7 @@ export default class App extends Component {
         delete results[this.state.selectedGif];
 
         this.setState({
-            selectedGif: '',
+            selectedGif: -1,
             gifs,
             results
         });
@@ -99,14 +102,16 @@ export default class App extends Component {
             let sample = sampleData[key];
             let gifKey = `gif-${Date.now()}${count++}`;
 
-            sample = {
+            gifs.push({
                 ...sample,
                 timestamp: gifKey,
-                key: gifKey
-            };
-
-            gifs.push(sample);
-            results.push(sample);
+                key: gifs.length
+            });
+            results.push({
+                ...sample,
+                timestamp: gifKey,
+                key: results.length
+            });
 
             // Just need to return anything.
             return null;
@@ -132,7 +137,7 @@ export default class App extends Component {
         });
 
         this.setState({
-            selectedGif: '',
+            selectedGif: -1,
             gifs,
             results
         });
@@ -209,7 +214,7 @@ export default class App extends Component {
 
     unselectGif() {
         this.setState({
-            selectedGif: ''
+            selectedGif: -1
         }, function() {
             console.log('unselected');
         });
@@ -229,7 +234,7 @@ export default class App extends Component {
         let authenticatedUser = !!this.state.uid;
 
         let managementComponent;
-        if (this.state.selectedGif) {
+        if (this.state.selectedGif > -1) {
             managementComponent = (
                 <EditGif
                     gif={this.getGifWithKey(this.state.selectedGif)}
