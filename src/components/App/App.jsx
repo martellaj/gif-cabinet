@@ -71,20 +71,24 @@ export default class App extends Component {
 
     updateGif(updatedGif) {
         let gifs = this.state.gifs.slice();
-        gifs[this.state.selectedGif] = updatedGif;
+        gifs[this.getIndexOfGifWithKey(this.state.selectedGif, gifs)] = updatedGif;
+
+        let results = this.state.results.slice();
+        results[this.getIndexOfGifWithKey(this.state.selectedGif, results)] = updatedGif;
 
         this.setState({
             selectedGif: -1,
-            gifs: gifs
+            gifs,
+            results
         });
     }
 
     deleteGif() {
         let gifs = this.state.gifs.slice();
-        delete gifs[this.state.selectedGif];
+        delete gifs[this.getIndexOfGifWithKey(this.state.selectedGif, gifs)];
 
         let results = this.state.results.slice();
-        delete results[this.state.selectedGif];
+        delete results[this.getIndexOfGifWithKey(this.state.selectedGif, results)];
 
         this.setState({
             selectedGif: -1,
@@ -224,6 +228,16 @@ export default class App extends Component {
         return this.state.gifs.filter(gif => {
             return gif.timestamp === key;
         })[0];
+    }
+
+    getIndexOfGifWithKey(key, collection) {
+        return collection.findIndex(gif => {
+            if (!gif) {
+                return false;
+            } else {
+                return gif.timestamp === key;
+            }
+        });
     }
 
     /**
