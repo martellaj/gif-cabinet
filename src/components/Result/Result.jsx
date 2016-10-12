@@ -15,7 +15,7 @@ export default class Result extends Component {
 
     onResultClick(event) {
         if (!this.props.isSelected) {
-            this.props.selectGif(this.props.gifId);
+            this.props.selectGif(this.props.timestamp);
         } else {
             this.props.unselectGif();
         }
@@ -45,7 +45,7 @@ export default class Result extends Component {
 
 Result.propTypes = {
     result: React.PropTypes.object.isRequired,
-    gifId: React.PropTypes.number.isRequired,
+    timestamp: React.PropTypes.number.isRequired,
     selectGif: React.PropTypes.func.isRequired,
     isSelected: React.PropTypes.bool.isRequired,
     unselectGif: React.PropTypes.func.isRequired
