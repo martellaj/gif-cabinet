@@ -8,13 +8,19 @@ export default class SampleData extends Component {
      */
 
     render() {
-        return (
-            <div className="sample-data-component">
-                <h2>sample data</h2>
-                <button className="sample-button" onClick={this.props.createSampleData}>load sample data</button>
-                <button className="sample-button" onClick={this.props.deleteSampleData}>clear sample data</button>
-            </div>
-        );
+        if (window.location.search.indexOf('debug=true') > -1) {
+            return (
+                <div className="sample-data-component">
+                    <h2>sample data</h2>
+                    <button className="sample-button" onClick={this.props.createSampleData}>load sample data</button>
+                    <button className="sample-button" onClick={this.props.deleteSampleData}>clear sample data</button>
+                </div>
+            );
+        } else {
+            return (
+                <div></div>
+            );
+        }
     }
 }
 
