@@ -7,7 +7,7 @@ export default class Results extends Component {
         super();
 
         this.state = {
-            sortOrder: 'newest'
+            sortOrder: 'most relevant'
         };
 
         this.renderResult = this.renderResult.bind(this);
