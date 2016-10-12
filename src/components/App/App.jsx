@@ -53,18 +53,18 @@ export default class App extends Component {
 
     createGif(gif) {
         // Generate timestamp key.
-        let key = `gif-${Date.now()}`;
+        let timestamp = Date.now();
 
         this.setState({
             gifs: this.state.gifs.concat([{
                 ...gif,
-                timestamp: key,
-                key: this.state.gifs.length
+                timestamp: timestamp,
+                key: timestamp
             }]),
             results: this.state.results.concat([{
                 ...gif,
-                timestamp: key,
-                key: this.state.results.length
+                timestamp: timestamp,
+                key: timestamp
             }])
         });
     }
@@ -100,17 +100,17 @@ export default class App extends Component {
 
         Object.keys(sampleData).map((key) => {
             let sample = sampleData[key];
-            let gifKey = `gif-${Date.now()}${count++}`;
+            let gifKey = parseInt(`${Date.now()}${count++}`, 10);
 
             gifs.push({
                 ...sample,
                 timestamp: gifKey,
-                key: gifs.length
+                key: gifKey
             });
             results.push({
                 ...sample,
                 timestamp: gifKey,
-                key: results.length
+                key: gifKey
             });
 
             // Just need to return anything.
@@ -202,11 +202,11 @@ export default class App extends Component {
         this.setState({ query });
     }
 
-    selectGif(gifId) {
-        console.log(`trying to select ${gifId}`);
+    selectGif(timestamp) {
+        console.log(`trying to select ${timestamp}`);
 
         this.setState({
-            selectedGif: gifId
+            selectedGif: timestamp
         }, function() {
             console.log('selected');
         });
@@ -222,7 +222,7 @@ export default class App extends Component {
 
     getGifWithKey(key) {
         return this.state.gifs.filter(gif => {
-            return gif.key === key;
+            return gif.timestamp === key;
         })[0];
     }
 

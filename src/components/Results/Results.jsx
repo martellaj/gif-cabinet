@@ -9,7 +9,8 @@ export default class Results extends Component {
         this.state = {
             sortOrder: "newest",
             isQueryActive: false,
-            isInitialLoad: true
+            isInitialLoad: true,
+            resultsSize: 0
         };
 
         this.renderResult = this.renderResult.bind(this);
@@ -67,9 +68,9 @@ export default class Results extends Component {
             <Result
                 key={result.key}
                 result={result}
-                gifId={result.key}
+                timestamp={result.timestamp}
                 selectGif={this.props.selectGif}
-                isSelected={result.key === this.props.selectedGif}
+                isSelected={result.timestamp === this.props.selectedGif}
                 unselectGif={this.props.unselectGif}
             />
         );
@@ -95,11 +96,11 @@ export default class Results extends Component {
     }
 
     _newestToOldestSort(a, b) {
-        return b.timestamp.slice(4) - a.timestamp.slice(4);
+        return b.timestamp - a.timestamp;
     }
 
     _oldestToNewestSort(a, b) {
-        return a.timestamp.slice(4) - b.timestamp.slice(4);
+        return a.timestamp - b.timestamp;
     }
 
     isQueryActive(query) {
@@ -113,14 +114,19 @@ export default class Results extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.state.isInitialLoad && nextProps.isDoneLoadingGifs && nextProps.results.length > 0) {
+        // TODO: Add condition if collection size is different.
+        if ((this.state.isInitialLoad && nextProps.isDoneLoadingGifs && nextProps.results.length > 0) ||
+             this.state.resultsSize !== nextProps.results.length) {
             // Sort results and update results.
             let results = nextProps.results;
             results = this.sort(results, this.state.sortOrder);
             this.props.updateResults(results);
 
             // Update state.
-            this.setState({ isInitialLoad: false });
+            this.setState({
+                isInitialLoad: false,
+                resultsSize: results.length
+            });
         }
 
         let isQueryActive = this.isQueryActive(nextProps.query);
