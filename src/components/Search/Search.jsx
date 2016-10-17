@@ -6,16 +6,12 @@ export default class Search extends Component {
     constructor() {
         super();
 
-        this.addToQuery = this.addToQuery.bind(this);
-        this.removeTagFromQuery = this.removeTagFromQuery.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onRemoveTagFromQueryClick = this.onRemoveTagFromQueryClick.bind(this);
         this.renderTag = this.renderTag.bind(this);
     }
 
-    /**
-     * Custom methods
-     */
-
-    addToQuery(e) {
+    onFormSubmit(e) {
         e.preventDefault();
 
         let newTags = processTags(this.tags.value);
@@ -24,7 +20,7 @@ export default class Search extends Component {
         this.form.reset();
     }
 
-    removeTagFromQuery(e, key) {
+    onRemoveTagFromQueryClick(e, key) {
         e.preventDefault();
         this.props.removeTagFromQuery(key);
     }
@@ -32,21 +28,17 @@ export default class Search extends Component {
     renderTag(tag, key) {
         return (
             <div key={key} className="tag-list-item">
-                <button onClick={(e) => this.removeTagFromQuery(e, key)}>&times;</button>
+                <button onClick={(e) => this.onRemoveTagFromQueryClick(e, key)}>&times;</button>
                 {` ${tag}`}
             </div>
         );
     }
 
-    /**
-     * Render function
-     */
-
     render() {
         return (
             <div className="search-component">
                 <h2>search</h2>
-                <form className="search-form" onSubmit={this.addToQuery} ref={(form) => this.form = form}>
+                <form className="search-form" onSubmit={this.onFormSubmit} ref={(form) => this.form = form}>
                     <input required type="text" placeholder="tags (comma delimited)" ref={(tags) => { this.tags = tags; }} />
                     <button type="submit">add to query</button>
                 </form>
