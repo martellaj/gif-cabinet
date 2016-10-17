@@ -98,6 +98,21 @@ export default class Results extends Component {
         return this.pruneAndSort(results, sortOrder, query);
     }
 
+    /**
+     * Checking length of results isn't working in renderResults, so
+     * this is helper function tests the array to make sure it's more
+     * than just an array of undefined values.
+     */
+    hasResults(results) {
+        for (let result of results) {
+            if (result) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     renderResult(result) {
         return (
             <Result
@@ -119,7 +134,7 @@ export default class Results extends Component {
 
         // Returns results markup if we have results, or "no results"
         // markup if we don't.
-        if (results.length > 0) {
+        if (this.hasResults(results)) {
             resultsMarkup = (
                 <div className="results-container">
                     {results.map(this.renderResult)}
