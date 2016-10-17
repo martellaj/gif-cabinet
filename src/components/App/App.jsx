@@ -23,6 +23,7 @@ export default class App extends Component {
 
         this.addToQuery = this.addToQuery.bind(this);
         this.authHandler = this.authHandler.bind(this);
+        this.onLogOutClick = this.onLogOutClick.bind(this);
         this.removeTagFromQuery = this.removeTagFromQuery.bind(this);
         this.updateResults = this.updateResults.bind(this);
 
@@ -67,6 +68,10 @@ export default class App extends Component {
         this.setState({
             results: this.state.gifs
         });
+    }
+
+    onLogOutClick(e) {
+        alert('bye');
     }
 
     addToQuery(tags) {
@@ -126,29 +131,32 @@ export default class App extends Component {
         } else {
             return (
                 <div className="app">
-                    <div className="app-section search-section">
-                        <Search
-                            addToQuery={this.addToQuery}
-                            query={this.state.query}
-                            removeTagFromQuery={this.removeTagFromQuery}
-                        />
-                    </div>
-                    <div className="app-section results-section">
-                        <Results
-                            results={this.state.results}
-                            selectGif={this.selectGif}
-                            selectedGif={this.state.selectedGif}
-                            unselectGif={this.unselectGif}
-                            query={this.state.query}
-                            updateResults={this.updateResults}
-                        />
-                    </div>
-                    <div className="app-section gif-management-section">
-                        {managementComponent}
-                        <SampleData
-                            createSampleData={this.createSampleData}
-                            deleteSampleData={this.deleteSampleData}
-                        />
+                    <button className="log-out-button" onClick={this.onLogOutClick}>log out</button>
+                    <div className="app-content">
+                        <div className="app-section search-section">
+                            <Search
+                                addToQuery={this.addToQuery}
+                                query={this.state.query}
+                                removeTagFromQuery={this.removeTagFromQuery}
+                            />
+                        </div>
+                        <div className="app-section results-section">
+                            <Results
+                                results={this.state.results}
+                                selectGif={this.selectGif}
+                                selectedGif={this.state.selectedGif}
+                                unselectGif={this.unselectGif}
+                                query={this.state.query}
+                                updateResults={this.updateResults}
+                            />
+                        </div>
+                        <div className="app-section gif-management-section">
+                            {managementComponent}
+                            <SampleData
+                                createSampleData={this.createSampleData}
+                                deleteSampleData={this.deleteSampleData}
+                            />
+                        </div>
                     </div>
                 </div>
             );

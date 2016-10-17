@@ -2,6 +2,10 @@
   padding-top: 2%;
 }
 
+.app-content {
+  margin-top: 20px;
+}
+
 .app-section {
   display: inline-block;
   vertical-align: top;
@@ -12,17 +16,15 @@
   margin-left: 1%;
 }
 
-.foo {
-  margin: 0 auto;
-  background: blue;
-  height: 200px;
-  width: 80%;
-}
-
 .results-section {
   width: 60%;
 }
 
 .gif-management-section {
   width: 20%;
+}
+
+.log-out-button {
+  float: right;
+  margin-right: 20px;
 }
