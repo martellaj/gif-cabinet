@@ -1,4 +1,4 @@
-import sampleData from '../SampleData/sample-gifs';
+import SampleGifs from '../SampleData/SampleGifs';
 
 export default class GifHelper {
     constructor(AppComponent) {
@@ -93,8 +93,8 @@ export default class GifHelper {
         let results = this._app.state.results.slice();
         let count = 0;
 
-        Object.keys(sampleData).map((key) => {
-            let sample = sampleData[key];
+        Object.keys(SampleGifs).map((key) => {
+            let sample = SampleGifs[key];
             let gifKey = parseInt(`${Date.now()}${count++}`, 10);
 
             gifs.push({

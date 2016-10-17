@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import './SampleData.css';
 
 export default class SampleData extends Component {
-
-    /**
-     * Render function
-     */
-
     render() {
         if (window.location.search.indexOf('debug=true') > -1) {
             return (
