@@ -7,14 +7,14 @@ export default class AddGif extends Component {
         super();
 
         this.state = {
-            url: null
+            url: null // Url of the GIF being added
         };
 
-        this.createGif = this.createGif.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
         this.setPreviewImage = this.setPreviewImage.bind(this);
     }
 
-    createGif(event) {
+    onFormSubmit(event) {
         event.preventDefault();
 
         let gif = {
@@ -42,7 +42,7 @@ export default class AddGif extends Component {
             <div className="add-gif-component">
                 <h2>add a gif</h2>
                 <img className="preview" src={this.state.url || 'https://media.giphy.com/media/12NESIhPaAgVKU/giphy.gif'} alt="gif preview" />
-                <form ref={(input) => { this.form = input; }} className="add-gif-form" onSubmit={this.createGif}>
+                <form ref={(input) => { this.form = input; }} className="add-gif-form" onSubmit={this.onFormSubmit}>
                     <input type="text" required placeholder="gif url" onBlur={this.setPreviewImage} ref={(url) => { this.url = url; }} />
                     <textarea type="text" required placeholder="tags (comma delimited)" ref={(tags) => { this.tags = tags; }} />
                     <button type="submit">add gif</button>
