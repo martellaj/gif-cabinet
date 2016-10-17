@@ -2,10 +2,10 @@ import './App.css';
 import AddGif from '../AddGif/AddGif';
 import base from '../../base';
 import EditGif from '../EditGif/EditGif';
+import GifHelper from './GifHelper';
 import Login from '../Login/Login';
 import React, { Component } from 'react';
 import Results from '../Results/Results';
-import sampleData from '../SampleData/sample-gifs';
 import SampleData from '../SampleData/SampleData';
 import Search from '../Search/Search';
 
@@ -18,159 +18,30 @@ export default class App extends Component {
             selectedGif: -1, // ID of selected GIF
             gifs: [], // All of the GIFs
             query: [], // Tags being searched
-            results: [],
-            isDoneLoadingGifs: false
+            results: [] // Collection of current results being shown to user
         };
 
         this.addToQuery = this.addToQuery.bind(this);
         this.authHandler = this.authHandler.bind(this);
-        this.createGif = this.createGif.bind(this);
-        this.createSampleData = this.createSampleData.bind(this);
-        this.deleteGif = this.deleteGif.bind(this);
-        this.deleteSampleData = this.deleteSampleData.bind(this);
         this.removeTagFromQuery = this.removeTagFromQuery.bind(this);
-        this.selectGif = this.selectGif.bind(this);
-        this.unselectGif = this.unselectGif.bind(this);
-        this.updateGif = this.updateGif.bind(this);
         this.updateResults = this.updateResults.bind(this);
-    }
 
-    /**
-     * Life-cycle methods
-     */
+        this._gifHelper = new GifHelper(this);
+        this.createGif = this._gifHelper.createGif;
+        this.createSampleData = this._gifHelper.createSampleData;
+        this.deleteGif = this._gifHelper.deleteGif;
+        this.deleteSampleData = this._gifHelper.deleteSampleData;
+        this.getGif = this._gifHelper.getGif;
+        this.selectGif = this._gifHelper.selectGif;
+        this.unselectGif = this._gifHelper.unselectGif;
+        this.updateGif = this._gifHelper.updateGif;
+    }
 
     componentDidMount() {
         base.onAuth((user) => {
             if (user) {
                 this.authHandler(null, { user });
             }
-        });
-    }
-
-    /**
-     * Functions that act on state.gifs
-     */
-
-    createGif(gif) {
-        // Generate timestamp key.
-        let timestamp = Date.now();
-
-        this.setState({
-            gifs: this.state.gifs.concat([{
-                ...gif,
-                timestamp: timestamp,
-                key: timestamp
-            }]),
-            results: this.state.results.concat([{
-                ...gif,
-                timestamp: timestamp,
-                key: timestamp
-            }])
-        });
-    }
-
-    updateGif(updatedGif) {
-        let gifs = this.state.gifs.slice();
-        gifs[this.getIndexOfGifWithKey(this.state.selectedGif, gifs)] = updatedGif;
-
-        let results = this.state.results.slice();
-        results[this.getIndexOfGifWithKey(this.state.selectedGif, results)] = updatedGif;
-
-        this.setState({
-            selectedGif: -1,
-            gifs,
-            results
-        });
-    }
-
-    deleteGif() {
-        let gifs = this.state.gifs.slice();
-        delete gifs[this.getIndexOfGifWithKey(this.state.selectedGif, gifs)];
-
-        let results = this.state.results.slice();
-        delete results[this.getIndexOfGifWithKey(this.state.selectedGif, results)];
-
-        this.setState({
-            selectedGif: -1,
-            gifs,
-            results
-        });
-    }
-
-    createSampleData() {
-        let gifs = this.state.gifs.slice();
-        let results = this.state.results.slice();
-        let count = 0;
-
-        Object.keys(sampleData).map((key) => {
-            let sample = sampleData[key];
-            let gifKey = parseInt(`${Date.now()}${count++}`, 10);
-
-            gifs.push({
-                ...sample,
-                timestamp: gifKey,
-                key: gifKey
-            });
-            results.push({
-                ...sample,
-                timestamp: gifKey,
-                key: gifKey
-            });
-
-            // Just need to return anything.
-            return null;
-        });
-
-        this.setState({
-            gifs,
-            results
-        });
-    }
-
-    deleteSampleData() {
-        let gifs = this.state.gifs.slice();
-        gifs.map((gif, key) => {
-            delete gifs[key];
-            return gif;
-        });
-
-        let results = this.state.results.slice();
-        results.map((result, key) => {
-            delete results[key];
-            return result;
-        });
-
-        this.setState({
-            selectedGif: -1,
-            gifs,
-            results
-        });
-    }
-
-    /**
-     * End of functions that act on state.gifs
-     */
-
-    updateResults(updatedResults) {
-        this.setState({
-            results: [].concat(updatedResults)
-        });
-    }
-
-    addToQuery(tags) {
-        let query = this.state.query.slice();
-
-        tags.map(tag => {
-            // Add to query if it isn't already present.
-            if (query.indexOf(tag) === -1 ){
-                query.push(tag);
-            }
-
-            return null;
-        });
-
-        this.setState({
-            query: query
         });
     }
 
@@ -195,8 +66,23 @@ export default class App extends Component {
     doneSyncingWithFirebase() {
         this.setState({
             results: this.state.gifs
-        }, function() {
-            this.setState({ isDoneLoadingGifs: true });
+        });
+    }
+
+    addToQuery(tags) {
+        let query = this.state.query.slice();
+
+        tags.map(tag => {
+            // Add to query if it isn't already present.
+            if (query.indexOf(tag) === -1 ){
+                query.push(tag);
+            }
+
+            return null;
+        });
+
+        this.setState({
+            query: query
         });
     }
 
@@ -206,52 +92,23 @@ export default class App extends Component {
         this.setState({ query });
     }
 
-    selectGif(timestamp) {
-        console.log(`trying to select ${timestamp}`);
-
+    updateResults(updatedResults) {
         this.setState({
-            selectedGif: timestamp
-        }, function() {
-            console.log('selected');
+            results: [].concat(updatedResults)
         });
     }
-
-    unselectGif() {
-        this.setState({
-            selectedGif: -1
-        }, function() {
-            console.log('unselected');
-        });
-    }
-
-    getGifWithKey(key) {
-        return this.state.gifs.filter(gif => {
-            return gif.timestamp === key;
-        })[0];
-    }
-
-    getIndexOfGifWithKey(key, collection) {
-        return collection.findIndex(gif => {
-            if (!gif) {
-                return false;
-            } else {
-                return gif.timestamp === key;
-            }
-        });
-    }
-
-    /**
-     * Render function
-     */
 
     render() {
         let authenticatedUser = !!this.state.uid;
 
+        // Gets the correct management component.
+        //   If no GIF is selected, render AddGif component.
+        //   If a GIF is selected, render EditGif component.
         let managementComponent;
         if (this.state.selectedGif > -1) {
             managementComponent = (
                 <EditGif
-                    gif={this.getGifWithKey(this.state.selectedGif)}
+                    gif={this.getGif(this.state.selectedGif)}
                     updateGif={this.updateGif}
                     deleteGif={this.deleteGif}
                 />
@@ -284,7 +141,6 @@ export default class App extends Component {
                             unselectGif={this.unselectGif}
                             query={this.state.query}
                             updateResults={this.updateResults}
-                            isDoneLoadingGifs={this.state.isDoneLoadingGifs}
                         />
                     </div>
                     <div className="app-section gif-management-section">
