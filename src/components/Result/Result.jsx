@@ -9,10 +9,6 @@ export default class Result extends Component {
         this.onResultClick = this.onResultClick.bind(this);
     }
 
-    /**
-     * Custom methods
-     */
-
     onResultClick(event) {
         if (!this.props.isSelected) {
             this.props.selectGif(this.props.timestamp);
@@ -20,10 +16,6 @@ export default class Result extends Component {
             this.props.unselectGif();
         }
     }
-
-    /**
-     * Render function
-     */
 
     render() {
         let gif = this.props.result;
@@ -44,9 +36,9 @@ export default class Result extends Component {
 }
 
 Result.propTypes = {
-    result: React.PropTypes.object.isRequired,
-    timestamp: React.PropTypes.number.isRequired,
-    selectGif: React.PropTypes.func.isRequired,
     isSelected: React.PropTypes.bool.isRequired,
+    result: React.PropTypes.object.isRequired,
+    selectGif: React.PropTypes.func.isRequired,
+    timestamp: React.PropTypes.number.isRequired,
     unselectGif: React.PropTypes.func.isRequired
 };
