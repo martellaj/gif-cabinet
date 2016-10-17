@@ -7,16 +7,12 @@ export default class EditGif extends Component {
         super();
 
         this.state = {
-            tags: ''
+            tags: '' // Current search query tags
         };
 
-        this.deleteGif = this.deleteGif.bind(this);
-        this.updateGif = this.updateGif.bind(this);
+        this.onDeleteGifClick = this.onDeleteGifClick.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
     }
-
-    /**
-     * Life-cycle methods
-     */
 
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -24,11 +20,7 @@ export default class EditGif extends Component {
         });
     }
 
-    /**
-     * Custom methods
-     */
-
-    deleteGif(e) {
+    onDeleteGifClick(e) {
         e.preventDefault();
 
         this.props.deleteGif();
@@ -38,7 +30,7 @@ export default class EditGif extends Component {
         this.setState({ tags: e.target.value });
     }
 
-    updateGif(e) {
+    onFormSubmit(e) {
         e.preventDefault();
 
         let updatedGif = {
@@ -49,10 +41,6 @@ export default class EditGif extends Component {
         this.props.updateGif(updatedGif);
     }
 
-    /**
-     * Render function
-     */
-
     render() {
         let gif = this.props.gif;
 
@@ -60,7 +48,7 @@ export default class EditGif extends Component {
             <div className="edit-gif-component">
                 <h2>edit gif</h2>
                 <img className="preview" src={gif.url} alt="gif preview" />
-                <form ref={(input) => { this.form = input; }} className="edit-gif-form" onSubmit={this.updateGif}>
+                <form ref={(input) => { this.form = input; }} className="edit-gif-form" onSubmit={this.onFormSubmit}>
                     <input type="text" readOnly value={gif.url} />
                     <textarea
                         required
@@ -72,7 +60,7 @@ export default class EditGif extends Component {
                         ref={(tags) => { this.tags = tags; }}
                     />
                     <button className="left-button" type="submit">update tags</button>
-                    <button onClick={(e) => this.deleteGif(e)}>delete gif</button>
+                    <button onClick={(e) => this.onDeleteGifClick(e)}>delete gif</button>
                 </form>
             </div>
         );
@@ -80,6 +68,7 @@ export default class EditGif extends Component {
 }
 
 EditGif.propTypes = {
+    deleteGif: React.PropTypes.func.isRequired,
     gif: React.PropTypes.object.isRequired,
     updateGif: React.PropTypes.func.isRequired
 };
