@@ -20,7 +20,7 @@ export default class AddGif extends Component {
         let gif = {
             url: this.url.value,
             tags: processTags(this.tags.value)
-        }
+        };
 
         this.props.createGif(gif);
 
@@ -36,10 +36,6 @@ export default class AddGif extends Component {
             url: event.target.value
         });
     }
-
-    /**
-     * Render function
-     */
 
     render() {
         return (
