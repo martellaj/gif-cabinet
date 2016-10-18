@@ -45,7 +45,7 @@ export default class AddGif extends Component {
                 <form ref={(input) => { this.form = input; }} className="add-gif-form" onSubmit={this.onFormSubmit}>
                     <input type="text" required placeholder="gif url" onBlur={this.setPreviewImage} ref={(url) => { this.url = url; }} />
                     <textarea type="text" required placeholder="tags (comma delimited)" ref={(tags) => { this.tags = tags; }} />
-                    <button type="submit">add gif</button>
+                    <button className="app-button" type="submit">add gif</button>
                 </form>
             </div>
         );

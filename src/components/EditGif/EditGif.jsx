@@ -59,8 +59,8 @@ export default class EditGif extends Component {
                         value={this.state.tags || this.props.gif.tags}
                         ref={(tags) => { this.tags = tags; }}
                     />
-                    <button className="left-button" type="submit">update tags</button>
-                    <button onClick={(e) => this.onDeleteGifClick(e)}>delete gif</button>
+                    <button className="left-button app-button" type="submit">update tags</button>
+                    <button className="app-button" onClick={(e) => this.onDeleteGifClick(e)}>delete gif</button>
                 </form>
             </div>
         );

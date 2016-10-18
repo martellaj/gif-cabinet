@@ -13,8 +13,8 @@
 }
 
 .result-focused {
-    border: 1px solid black;
-    background: lightcyan;
+    border: 1px solid #364958;
+    background: #87BBA2;
 
     /* Takes new border into account. */
     margin-right: 8px;

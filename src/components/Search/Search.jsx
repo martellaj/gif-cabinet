@@ -40,7 +40,7 @@ export default class Search extends Component {
                 <h2>search</h2>
                 <form className="search-form" onSubmit={this.onFormSubmit} ref={(form) => this.form = form}>
                     <input required type="text" placeholder="tags (comma delimited)" ref={(tags) => { this.tags = tags; }} />
-                    <button type="submit">add to query</button>
+                    <button className="app-button" type="submit">add to query</button>
                 </form>
                 <div className="tag-list">
                     {this.props.query.map(this.renderTag)}

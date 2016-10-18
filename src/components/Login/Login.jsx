@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import './Login.css';
 import base from '../../base';
+import React, { Component } from 'react';
 
 export default class Login extends Component {
     constructor() {
@@ -23,10 +24,11 @@ export default class Login extends Component {
     render() {
         return (
             <div className="login-container">
+                <h2>log in</h2>
                 <button
                     className="facebook-login"
                     onClick={this.authenticate}
-                >log in with facebook</button>
+                >facebook</button>
             </div>
         );
     }
