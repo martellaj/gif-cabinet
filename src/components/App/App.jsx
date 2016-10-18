@@ -62,6 +62,11 @@ export default class App extends Component {
             asArray: true,
             then: this.doneSyncingWithFirebase
         });
+
+        // Log Facebook authentication.
+        base.push(`logins/facebook`, {
+            data: true
+        });
     }
 
     doneSyncingWithFirebase() {
@@ -85,6 +90,11 @@ export default class App extends Component {
             // Add to query if it isn't already present.
             if (query.indexOf(tag) === -1 ){
                 query.push(tag);
+
+                // Log tag.
+                base.push(`tags/${this.state.uid}`, {
+                    data: tag
+                });
             }
 
             return null;

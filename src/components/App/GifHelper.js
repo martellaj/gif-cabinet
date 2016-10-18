@@ -1,4 +1,5 @@
 import SampleGifs from '../SampleData/SampleGifs';
+import base from '../../base';
 
 export default class GifHelper {
     constructor(AppComponent) {
@@ -18,6 +19,7 @@ export default class GifHelper {
         // Generate timestamp key.
         let timestamp = Date.now();
 
+        // Update state.
         this._app.setState({
             gifs: this._app.state.gifs.concat([{
                 ...gif,
@@ -29,6 +31,11 @@ export default class GifHelper {
                 timestamp: timestamp,
                 key: timestamp
             }])
+        });
+
+        // Log creation.
+        base.push(`creates/${this._app.state.uid}`, {
+            data: gif
         });
     }
 
@@ -60,10 +67,16 @@ export default class GifHelper {
             gifs,
             results
         });
+
+        // Log update.
+        base.push(`updates/${this._app.state.uid}`, {
+            data: updatedGif
+        });
     }
 
     deleteGif() {
         let gifs = this._app.state.gifs.slice();
+        let gifToDelete = gifs[this.getIndexOfGifWithKey(this._app.state.selectedGif, gifs)];
         delete gifs[this.getIndexOfGifWithKey(this._app.state.selectedGif, gifs)];
 
         let results = this._app.state.results.slice();
@@ -74,11 +87,20 @@ export default class GifHelper {
             gifs,
             results
         });
+
+        base.push(`deletes/${this._app.state.uid}`, {
+            data: gifToDelete
+        });
     }
 
     selectGif(timestamp) {
         this._app.setState({
             selectedGif: timestamp
+        });
+
+        // Log selection.
+        base.push(`selects/${this._app.state.uid}`, {
+            data: true
         });
     }
 
