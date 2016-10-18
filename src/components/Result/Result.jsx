@@ -12,6 +12,11 @@ export default class Result extends Component {
     onResultClick(event) {
         if (!this.props.isSelected) {
             this.props.selectGif(this.props.timestamp);
+
+            // Copy URL to clipboard.
+            let textbox = document.getElementById(this.props.result.timestamp);
+            textbox.select();
+            document.execCommand('copy');
         } else {
             this.props.unselectGif();
         }
@@ -29,7 +34,7 @@ export default class Result extends Component {
         return (
             <div className={className} onClick={this.onResultClick}>
                 <img className="preview" src={gif.url} alt="gif preview" />
-                <input className="url" type="text" readOnly value={gif.url} />
+                <input id={this.props.result.timestamp} className="url" type="text" readOnly value={gif.url} />
             </div>
         );
     }
