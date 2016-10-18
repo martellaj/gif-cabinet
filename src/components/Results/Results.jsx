@@ -141,7 +141,7 @@ export default class Results extends Component {
                 </div>
             );
         } else {
-            resultsMarkup = <p>no results</p>;
+            resultsMarkup = <p>no results, try adding more gifs to your cabinet with the form on the right</p>;
         }
 
         return resultsMarkup;
