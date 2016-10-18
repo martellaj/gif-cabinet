@@ -71,7 +71,11 @@ export default class App extends Component {
     }
 
     onLogOutClick(e) {
-        alert('bye');
+        base.unauth();
+
+        this.setState({
+            uid: ''
+        });
     }
 
     addToQuery(tags) {
