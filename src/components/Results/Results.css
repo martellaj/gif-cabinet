@@ -7,4 +7,5 @@
 
 .results-component > .sort-order {
     margin-bottom: 20px;
+    width: 200px;
 }

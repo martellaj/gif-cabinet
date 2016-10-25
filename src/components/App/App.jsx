@@ -145,7 +145,7 @@ export default class App extends Component {
         } else {
             return (
                 <div className="app">
-                    <button className="log-out-button" onClick={this.onLogOutClick}>log out</button>
+                    <button className="btn btn-danger log-out-button" onClick={this.onLogOutClick}>log out</button>
                     <div className="app-content">
                         <div className="app-section search-section">
                             <Search

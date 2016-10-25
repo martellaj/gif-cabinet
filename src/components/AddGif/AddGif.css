@@ -9,16 +9,12 @@
     height: auto;
 }
 
-.add-gif-component > .add-gif-form {
-    margin-left: auto;
-    margin-right: auto;
+.add-gif-form > .form-control {
+    margin-top: 5px;
 }
 
-.add-gif-form > input,
 .add-gif-form > textarea {
-    display: block;
     margin-bottom: 5px;
-    width: 100%;
 }
 
 .add-gif-form > button {

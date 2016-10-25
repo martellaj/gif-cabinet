@@ -151,7 +151,7 @@ export default class Results extends Component {
         return (
             <div className="results-component">
                 <h2>results</h2>
-                <select className="sort-order" value={this.state.sortOrder} onChange={(e) => this.onSortOrderChange(e)}>
+                <select className="sort-order form-control" value={this.state.sortOrder} onChange={(e) => this.onSortOrderChange(e)}>
                     <option value="newest">Newest to oldest</option>
                     <option value="oldest">Oldest to newest</option>
                     <option value="most relevant">Most relevant</option>

@@ -13,9 +13,11 @@
     "react-scripts": "0.6.1"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
     "re-base": "^2.2.0",
     "react": "^15.3.2",
+    "react-bootstrap": "^0.30.5",
     "react-dom": "^15.3.2"
   },
   "scripts": {

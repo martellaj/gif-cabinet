@@ -49,8 +49,9 @@ export default class EditGif extends Component {
                 <h2>edit gif</h2>
                 <img className="preview" src={gif.url} alt="gif preview" />
                 <form ref={(input) => { this.form = input; }} className="edit-gif-form" onSubmit={this.onFormSubmit}>
-                    <input type="text" readOnly value={gif.url} />
+                    <input className="form-control" type="text" readOnly value={gif.url} />
                     <textarea
+                        className="form-control"
                         required
                         onChange={(e) => this.onTagsChange(e)}
                         type="text"
@@ -59,8 +60,8 @@ export default class EditGif extends Component {
                         value={this.state.tags || this.props.gif.tags}
                         ref={(tags) => { this.tags = tags; }}
                     />
-                    <button className="left-button app-button" type="submit">update tags</button>
-                    <button className="app-button" onClick={(e) => this.onDeleteGifClick(e)}>delete gif</button>
+                    <button className="left-button btn btn-default" type="submit">update tags</button>
+                    <button className="btn btn-danger" onClick={(e) => this.onDeleteGifClick(e)}>delete gif</button>
                 </form>
             </div>
         );

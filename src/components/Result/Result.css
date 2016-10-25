@@ -14,7 +14,6 @@
 
 .result-focused {
     border: 1px solid #364958;
-    background: #87BBA2;
 
     /* Takes new border into account. */
     margin-right: 8px;
@@ -31,5 +30,5 @@
 
 .result > input {
     margin-top: 2px;
-    width: 194px;
+    width: 188px;
 }

@@ -28,13 +28,14 @@ export default class Result extends Component {
 
         let className = cx({
             result: true,
+            'bg-primary': this.props.isSelected,
             'result-focused': this.props.isSelected
         });
 
         return (
             <div className={className} onClick={this.onResultClick}>
                 <img className="preview" src={gif.url} alt="gif preview" />
-                <input id={this.props.result.timestamp} className="url" type="text" readOnly value={gif.url} />
+                <input id={this.props.result.timestamp} className="form-control url" type="text" readOnly value={gif.url} />
             </div>
         );
     }

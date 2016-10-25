@@ -28,8 +28,8 @@ export default class Search extends Component {
     renderTag(tag, key) {
         return (
             <div key={key} className="tag-list-item">
-                <button onClick={(e) => this.onRemoveTagFromQueryClick(e, key)}>&times;</button>
-                {` ${tag}`}
+                <button className="close pull-left" onClick={(e) => this.onRemoveTagFromQueryClick(e, key)}>&times;</button>
+                <span>{` ${tag}`}</span>
             </div>
         );
     }
@@ -39,8 +39,8 @@ export default class Search extends Component {
             <div className="search-component">
                 <h2>search</h2>
                 <form className="search-form" onSubmit={this.onFormSubmit} ref={(form) => this.form = form}>
-                    <input required type="text" placeholder="tags (comma delimited)" ref={(tags) => { this.tags = tags; }} />
-                    <button className="app-button" type="submit">add to query</button>
+                    <input className="form-control" required type="text" placeholder="tags (comma delimited)" ref={(tags) => { this.tags = tags; }} />
+                    <button className="btn btn-primary" type="submit">add to query</button>
                 </form>
                 <div className="tag-list">
                     {this.props.query.map(this.renderTag)}
