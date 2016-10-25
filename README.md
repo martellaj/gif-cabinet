@@ -2,6 +2,8 @@
 
 *gif cabinet* is multiple things. It's an idea inspired by my ridiculous squad's Facebook chat where GIFs are sent back and forth on the reg. It's a way for me to learn React. It's an excuse for me to look at GIFs.
 
+![gif cabinet in action](https://github.com/martellaj/gif-cabinet/blob/master/gif-cabinet-gif.gif "gif cabinet in action")
+
 ## Usage
 
 1. Log in to your own personal *gif cabinet* using Facebook at [https://martellaj.github.io/gif-cabinet/](https://martellaj.github.io/gif-cabinet/).
