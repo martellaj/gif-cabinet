@@ -11,7 +11,7 @@
 ## Development
 
 1. Clone this repo.
-2. Using *npm*, run `npm install` followed by `npm run start` to quickly get a dev server up and running.
+2. Using *npm*, run `npm install` (or `yarn install` if you want to be cool) followed by `npm run start` to quickly get a dev server up and running.
 
 ## Acknowledgements
 
